@@ -4,10 +4,17 @@ import javax.swing.JOptionPane;
 
 public final class GameBoard {
     private ArrayList<Player> players;
+    
+    // Cards
     private ArrayList<Card> allCards;
-    private ArrayList<Weapon> weapons;
-    private ArrayList<Character> characters;
+    private ArrayList<WeaponCard> weaponCards;
+    private ArrayList<SuspectCard> suspectCards;
     private ArrayList<RoomCard> roomCards;
+    
+    //Tokens
+    private ArrayList<WeaponToken> weaponTokens;
+    private ArrayList<SuspectToken> suspectTokens;
+    
     
     private Room location[][]; 
     
@@ -19,16 +26,27 @@ public final class GameBoard {
     
     private int currentTurn = 0;
     
+    ArrayList<Room> validMoves;
+
+    
     /**   
      *GameBoard constructor
      */
     public GameBoard(){
+       //tokens
+       this.weaponTokens = new ArrayList<WeaponToken>();
+       this.suspectTokens = new ArrayList<SuspectToken>();
+       
        this.players = new ArrayList<Player>();
        this.allCards = new ArrayList<Card>();
-       this.weapons = new ArrayList<Weapon>();
-       this.characters = new ArrayList<Character>();
+       this.weaponCards = new ArrayList<WeaponCard>();
+       this.suspectCards = new ArrayList<SuspectCard>();
        this.roomCards = new ArrayList<RoomCard>();
-       this.location = new Room[5][5];
+       
+       this.validMoves  = new ArrayList<Room>();
+       
+       //7x7 room
+       this.location = new Room[7][7];
        getPlayers(); 
        makeCards();
        makeRooms();
@@ -60,18 +78,18 @@ public final class GameBoard {
 	 * Shuffle the weapons
 	 * @return an ArrayList with the weapons shuffled
 	 */
-    public ArrayList<Weapon> shuffleWeapons(){
-        Collections.shuffle(this.weapons);
-        return this.weapons;
+    public ArrayList<WeaponCard> shuffleWeapons(){
+        Collections.shuffle(this.weaponCards);
+        return this.weaponCards;
     }
 
     /**
      * Shuffle the characters
      * @return an ArrayList with the characters shuffled
      */
-    public ArrayList<Character> shuffleCharacters(){
-        Collections.shuffle(this.characters);
-        return this.characters;
+    public ArrayList<SuspectCard> shuffleSuspects(){
+        Collections.shuffle(this.suspectCards);
+        return this.suspectCards;
     }    
  
     /**
@@ -88,11 +106,11 @@ public final class GameBoard {
      */
     public final void pickSolution(){
         //Weapon sWeapon = 
-        Character character = shuffleCharacters().get(0);
-        this.characters.remove(character);
+        SuspectCard character = shuffleSuspects().get(0);
+        this.suspectCards.remove(character);
         
-        Weapon weapon = shuffleWeapons().get(0);
-        this.weapons.remove(weapon);
+        WeaponCard weapon = shuffleWeapons().get(0);
+        this.weaponCards.remove(weapon);
         
         RoomCard roomCard = shuffleRooms().get(0);
         this.roomCards.remove(roomCard);        
@@ -104,8 +122,8 @@ public final class GameBoard {
      * Combine the deck of cards by adding characters, weapons and room cards
      */
     public void combineDeck(){
-        this.allCards.addAll(characters);
-        this.allCards.addAll(weapons);
+        this.allCards.addAll(suspectCards);
+        this.allCards.addAll(weaponCards);
         this.allCards.addAll(roomCards); 
     }
     
@@ -123,9 +141,8 @@ public final class GameBoard {
     	
         while(iter.hasNext()){
         	for (Player p : this.players)
-	    	{/*This logic needs to be changed for to make sure 
-	    	that people all have the same amount of cards*/
-	    		p.addCard(iter.next());
+	    	{
+                    p.addCard(iter.next());
 	    	}       
         }
     }    
@@ -149,10 +166,7 @@ public final class GameBoard {
      * @return
      */
     public Solution takeTurn(Player player){
-    	/*Variable not being used
-    	Room startRoom = p.currentRoom;
-    	*/
-    	
+     	
         Solution value = null;
     	
     	System.out.println("****************************\n"
@@ -161,7 +175,7 @@ public final class GameBoard {
                 +  "****************************\n");
     	//check neighboring rooms for options
     	//
-    	ArrayList<Room> validMoves = getValidMoves(player.getCurrentRoom());
+    	validMoves = getValidMoves(player.getCurrentRoom());
     	
     	if(validMoves.isEmpty())
     	{
@@ -169,7 +183,7 @@ public final class GameBoard {
     				+ "1. Make an accusation\n"
     				+ "2. End turn.\n");
     	}
-    	else if(player.getCurrentRoom().isInHallway())
+    	else if(player.getCurrentRoom().isHallway())
     	{
     		System.out.println("Please Select what you would like to do:\n"
     				+  "1. Move\n"
@@ -203,8 +217,8 @@ public final class GameBoard {
 		
 		int x = 0;
 		int y = 0;
-		Character _c = null;
-		Weapon _w = null;
+		SuspectCard _c = null;
+		WeaponCard _w = null;
 		RoomCard _r = null;
 		switch(option)
 		{
@@ -221,33 +235,45 @@ public final class GameBoard {
 					    System.out.println("Invalid input. Select one of the numbers \n\nPlease try again... \n");
 					}
 					//Update GUI
+                                        
 					player.UpdateCharacter(location[x][y]);
+                                                                                
 					break;
 				
-			case 2: //Solution();
+			case 2: //Suggestion();
 				
-					System.out.println("Which weapon" + this.weapons.toString());
-					_w = this.weapons.get(userInput.nextInt());
+					System.out.println("Which weapon" + this.weaponCards.toString());
+					_w = this.weaponCards.get(userInput.nextInt());
 					
-					System.out.println("Current room is please type in the correct index" + player.getCurrentRoom());
+					System.out.println("Current room is " + player.getCurrentRoom().toString());
 					/*------------this is wrong*/
-					_r = this.roomCards.get(userInput.nextInt());
+                                        
+                                        Room current = player.getCurrentRoom();
+                                        for(int i =0; i < roomCards.size(); i++){
+                                            if(current.toString().equals(roomCards.get(i).toString())){
+                                                _r = roomCards.get(i);
+                                            }
+                                        }
+					//_r = this.roomCards.get(userInput.nextInt());
 					
-					System.out.println("Which Character" + this.characters.toString());
-					_c = this.characters.get(userInput.nextInt());
+					System.out.println("Which Character" + this.suspectCards.toString());
+					_c = this.suspectCards.get(userInput.nextInt());
 					
 					value = new Solution( _c, _w, _r );
+                                        
+                                        //move player and weapon to room.
+                                        
 					break;
 					
 			case 3://accusation
-					System.out.println("Which weapon" + this.weapons.toString());
-					_w = this.weapons.get(userInput.nextInt());
+					System.out.println("Which weapon" + this.weaponCards.toString());
+					_w = this.weaponCards.get(userInput.nextInt());
 					
-					System.out.println("Which cards" + this.roomCards.toString());
+					System.out.println("Which Room" + this.roomCards.toString());
 					_r = this.roomCards.get(userInput.nextInt());
 					
-					System.out.println("Which Character" + this.characters.toString());
-					_c = this.characters.get(userInput.nextInt());
+					System.out.println("Which Character" + this.suspectCards.toString());
+					_c = this.suspectCards.get(userInput.nextInt());
 					
 					value = new Solution( _c, _w, _r );
 					break;
@@ -259,9 +285,42 @@ public final class GameBoard {
         return value;
     }
     
-    /*
-    print the valid move options using the arrayList "validMoves"
-    */
+    
+    /**
+     * makes a list of possible cards for each player to show to
+     * prove a suggestion
+     * @param p the current player's hand to check
+     * @param s the suggestion 
+     * @return 
+     */
+    public ArrayList<Card> cardsToShow(Player p, Solution s){
+        p.emptyToShow();
+        if(p.hasCard(s.getCharacterCard())){
+            p.addToShow(s.getCharacterCard());
+        }
+        if(p.hasCard(s.getWeaponCard())){
+            p.addToShow(s.getWeaponCard());
+        }
+        if(p.hasCard(s.getRoomCard())){
+            p.addToShow(s.getRoomCard());
+        }
+        return p.getToShow();    
+    }
+
+    /**
+     * Checking if a player's accusation is correct
+     * @param s player's accusation
+     * @return true if the accusation is correct. false otherwise.
+     */
+    public boolean correctAccusation(Solution s){
+        if( this.solution.getCharacterCard() == s.getCharacterCard() &&
+                this.solution.getWeaponCard() == s.getWeaponCard() &&
+                this.solution.getRoomCard() == s.getRoomCard()){
+            return true;
+        }        
+        
+        return false;
+    }   
 
 
     /**
@@ -287,49 +346,73 @@ public final class GameBoard {
      * @return An ArrayList that contains all the possibles moves for a given room
      */
     public ArrayList<Room> getValidMoves(Room room){
-     	ArrayList<Room> validMoves = new ArrayList<Room>();
+     	validMoves.clear();
         int x = room.getXPos();
         int y = room.getYPos();
         
-        if(room.getXPos() == -1 || room.getXPos() == 5 || room.getYPos() ==-1 ||room.getYPos() == 5)
+        
+        //  starting spots 
+        // room is in the top row
+        if(x == 0){
+            validMoves.add(location[x+1][y]);
+        }
+        //bottom row
+        if(x == 6){
+            validMoves.add(location[x-1][y]);
+        }
+        //left column
+        if(y == 0){
+            validMoves.add(location[x][y+1]);
+        }
+        //right column
+        if(y == 6){
+            validMoves.add(location[x][y-1]);
+        }    
+        
+        
+        //for every room except the billard room in the middle
+        if(x == 1 || x == 5 || y == 1 || y == 5)
         {
-        	validMoves.clear();
-        	switch(room.getXPos())
+        	
+        	switch(x)
         	{
-	        	case -1:	
-	        		validMoves.add(location[room.getXPos()+1][room.getYPos()]);
+	        	case 1:	
+	        		validMoves.add(location[x+1][y]);
 	        		break;
 	        	case 5:
-	        		validMoves.add(location[room.getXPos()-1][room.getYPos()]);
+	        		validMoves.add(location[x-1][y]);
 	        		break;
 	        	default:
 	        		break;
         	}
         	
-        	switch(room.getYPos())
+        	switch(y)
         	{
-	        	case -1:	
-	        		validMoves.add(location[room.getXPos()][room.getYPos()+1]);
+	        	case 1:	
+	        		validMoves.add(location[x][y+1]);
 	        		break;
 	        	case 5:
-	        		validMoves.add(location[room.getXPos()][room.getYPos()-1]);
+	        		validMoves.add(location[x][y-1]);
 	        		break;
 	        	default:
 	        		break;
         	}
         }
         
-        else if(room.isInHallway()){
+        //hallways
+        else if(room.isHallway()){
             
-            if(x == 0 || x == 2 || x ==4){
-                validMoves.add(location[x][room.getYPos()+1]);
-                validMoves.add(location[x][room.getYPos()-1]);
+            if(x == 1 || x == 3 || x == 5){
+                validMoves.add(location[x][y + 1]);
+                validMoves.add(location[x][y - 1]);
             }
             else{
-                validMoves.add(location[x + 1][room.getYPos()]);
-                validMoves.add(location[x - 1][room.getYPos()]);
+                validMoves.add(location[x + 1][y]);
+                validMoves.add(location[x - 1][y]);
             }
         }
+        
+        //billiard room
         else{
             
             //check up
@@ -370,9 +453,42 @@ public final class GameBoard {
             }
             
         }  
-
         
         return validMoves;
+    }
+    
+    //SuspectToken(GameBoard _gb, Name n, int _x, int _y, String fileName)
+    public void makeTokens(){
+        SuspectToken scarlet = 
+                new SuspectToken(this, Suspects.SCARLET, 0, 4, "IMAGE FILE");
+        SuspectToken mustard = 
+                new SuspectToken(this, Suspects.MUSTARD, 2, 6, "IMAGE FILE");
+        SuspectToken white = 
+                new SuspectToken(this, Suspects.WHITE, 6, 4, "IMAGE FILE");
+        SuspectToken green = 
+                new SuspectToken(this, Suspects.GREEN, 6, 2, "IMAGE FILE");
+        SuspectToken peacock = 
+                new SuspectToken(this, Suspects.PEACOCK, 2, 0, "IMAGE FILE");
+        SuspectToken plum = 
+                new SuspectToken(this, Suspects.PLUM, 4, 0, "IMAGE FILE");
+        
+        //WeaponToken(GameBoard _gb, Weapons n, int _x, int _y, String fileName){
+        WeaponToken rope = 
+                new WeaponToken(this, Weapons.ROPE, 0, 0,"IMAGE FILE");
+        WeaponToken leadpipe = 
+                new WeaponToken(this, Weapons.LEADPIPE, 0, 0,"IMAGE FILE");
+        WeaponToken knife = 
+                new WeaponToken(this, Weapons.KNIFE, 0, 0,"IMAGE FILE");
+        WeaponToken wrench = 
+                new WeaponToken(this, Weapons.WRENCH, 0, 0,"IMAGE FILE");
+        WeaponToken candlestick = 
+                new WeaponToken(this, Weapons.CANDLESTICK, 0, 0,"IMAGE FILE");
+        WeaponToken revolver = 
+                new WeaponToken(this, Weapons.REVOLVER, 0, 0,"IMAGE FILE");
+    }
+    
+    public void readyPlayer(Player p, SuspectToken t){
+        p.setToken(t);
     }
 
     /**
@@ -384,39 +500,51 @@ public final class GameBoard {
      * @param s
      * @return a new Room
      */
-    public Room newRoom(String name, int xPos, int yPos, boolean isInHallway, boolean hasSecretPassage){
-        return new Room(name, xPos, yPos, isInHallway, hasSecretPassage);
+    public Room newRoom(Rooms r, int xPos, int yPos, boolean isInHallway, boolean hasSecretPassage){
+        return new Room(r, xPos, yPos, isInHallway, hasSecretPassage);
     }
     
     /**
      * Making rooms
      */
     public void makeRooms(){ 
-        location[0][0] = newRoom("Study", 0, 0, false, true);
-        location[0][1] = newRoom("hallway1", 0, 1, true, false);
-        location[0][2] = newRoom("Hall", 0, 2, false, false);
-        location[0][3] = newRoom("hallway2", 0, 3, true, false);
-        location[0][4] = newRoom("Lounge", 0, 4, false, true);
+        // row column
+        //name x y hallway passage
         
-        location[1][0] = newRoom("hallway3", 1, 0, true, false);
-        location[1][2] = newRoom("hallway4", 1, 2, true, false);
-        location[1][4] = newRoom("hallway5", 1, 4, true, false);
         
-        location[2][0] = newRoom("Libray", 2, 0, false, false);
-        location[2][1] = newRoom("hallway6", 2, 1, true, false);
-        location[2][2] = newRoom("Billiard Room", 2, 2, false, false);
-        location[2][3] = newRoom("hallway7", 2, 3, true, false);
-        location[2][4] = newRoom("Dining Room", 2, 4, false, false); 
+        //starting spots
+        location[0][4] = new Room("ScarletStart", 0, 4, false, false);
+        location[2][0] = new Room("PlumStart", 2, 0, false, false);
+        location[4][0] = new Room("PeacockStart", 4, 0, false, false);
+        location[2][6] = new Room("MustardStart", 2, 6, false, false);
+        location[6][2] = new Room("GreenStart", 6, 2, false, false);
+        location[6][4] = new Room("WhiteStart", 6, 4, false, false);
+             
+        location[1][1] = newRoom(Rooms.Study, 1, 1, false, true);
+        location[1][2] = new Room("hallway1", 1, 2, true, false);
+        location[1][3] = newRoom(Rooms.Hall, 1, 3, false, false);
+        location[1][4] = new Room("hallway2", 1, 4, true, false);
+        location[1][5] = newRoom(Rooms.Lounge, 1, 5, false, true);
         
-        location[3][0] = newRoom("hallway8", 3, 0, true, false);
-        location[3][2] = newRoom("hallway9", 3, 2, true, false);
-        location[3][4] = newRoom("hallway10", 3, 4, true, false);
+        location[2][1] = new Room("hallway3", 2, 1, true, false);
+        location[2][3] = new Room("hallway4", 2, 3, true, false);
+        location[2][5] = new Room("hallway5", 2, 5, true, false);
         
-        location[4][0] = newRoom("Conservatory", 4, 0, false, true);
-        location[4][1] = newRoom("hallway6", 4, 1, true, false);
-        location[4][2] = newRoom("Ballroom", 4, 2, false, false);
-        location[4][3] = newRoom("hallway7", 4, 3, true, false);
-        location[4][4] = newRoom("Kitchen", 4, 4, false, true);          
+        location[3][1] = newRoom(Rooms.Library, 3, 1, false, false);
+        location[3][2] = new Room("hallway6", 3, 2, true, false);
+        location[3][3] = newRoom(Rooms.Billiards, 3, 3, false, false);
+        location[3][4] = new Room("hallway7", 3, 4, true, false);
+        location[3][5] = newRoom(Rooms.Dining, 3, 5, false, false); 
+        
+        location[4][1] = new Room("hallway8", 4, 1, true, false);
+        location[4][3] = new Room("hallway9", 4, 3, true, false);
+        location[4][5] = new Room("hallway10", 4, 5, true, false);
+        
+        location[5][1] = newRoom(Rooms.Conservatory, 5, 1, false, true);
+        location[5][2] = new Room("hallway6", 5, 2, true, false);
+        location[5][3] = newRoom(Rooms.Ballroom, 5, 3, false, false);
+        location[5][4] = new Room("hallway7", 5, 4, true, false);
+        location[5][5] = newRoom(Rooms.Kitchen, 5, 5, false, true);          
     }
     
     /**
@@ -433,53 +561,53 @@ public final class GameBoard {
      * Making all the cards
      */
     public void makeCards(){
-        Character mustard = new Character("Colonel Mustard", "REPLACE W/ IMG FILE");
-        characters.add(mustard);
-        Character scarlet = new Character("Miss Scarlet", "REPLACE W/ IMG FILE");
-        characters.add(scarlet);
-        Character plum = new Character("Professor Plum", "REPLACE W/ IMG FILE");
-        characters.add(plum);
-        Character green = new Character("Mr. Green", "REPLACE W/ IMG FILE");
-        characters.add(green);
-        Character white = new Character("Mrs. White", "REPLACE W/ IMG FILE");
-        characters.add(white);
-        Character peacock = new Character("Mrs. Peacock", "REPLACE W/ IMG FILE");
-        characters.add(peacock);
+        SuspectCard mustard = new SuspectCard(Suspects.MUSTARD, "REPLACE W/ IMG FILE");
+        suspectCards.add(mustard);
+        SuspectCard scarlet = new SuspectCard(Suspects.SCARLET, "REPLACE W/ IMG FILE");
+        suspectCards.add(scarlet);
+        SuspectCard plum = new SuspectCard(Suspects.PLUM, "REPLACE W/ IMG FILE");
+        suspectCards.add(plum);
+        SuspectCard green = new SuspectCard(Suspects.GREEN, "REPLACE W/ IMG FILE");
+        suspectCards.add(green);
+        SuspectCard white = new SuspectCard(Suspects.WHITE, "REPLACE W/ IMG FILE");
+        suspectCards.add(white);
+        SuspectCard peacock = new SuspectCard(Suspects.PEACOCK, "REPLACE W/ IMG FILE");
+        suspectCards.add(peacock);
         
         //////////////////////////////////////
         
-        Weapon rope = new Weapon("Rope", "REPLACE W/ IMG FILE");
-        weapons.add(rope);
-        Weapon pipe = new Weapon("Lead Pipe", "REPLACE W/ IMG FILE");
-        weapons.add(pipe);
-        Weapon knife = new Weapon("Knife", "REPLACE W/ IMG FILE");
-        weapons.add(knife);
-        Weapon wrench = new Weapon("Wrench", "REPLACE W/ IMG FILE");
-        weapons.add(wrench);
-        Weapon candlestick = new Weapon("Candlestick", "REPLACE W/ IMG FILE");
-        weapons.add(candlestick);
-        Weapon revolver = new Weapon("Revolver", "REPLACE W/ IMG FILE");
-        weapons.add(revolver);
+        WeaponCard rope = new WeaponCard(Weapons.ROPE, "REPLACE W/ IMG FILE");
+        weaponCards.add(rope);
+        WeaponCard pipe = new WeaponCard(Weapons.LEADPIPE, "REPLACE W/ IMG FILE");
+        weaponCards.add(pipe);
+        WeaponCard knife = new WeaponCard(Weapons.KNIFE, "REPLACE W/ IMG FILE");
+        weaponCards.add(knife);
+        WeaponCard wrench = new WeaponCard(Weapons.WRENCH, "REPLACE W/ IMG FILE");
+        weaponCards.add(wrench);
+        WeaponCard candlestick = new WeaponCard(Weapons.CANDLESTICK, "REPLACE W/ IMG FILE");
+        weaponCards.add(candlestick);
+        WeaponCard revolver = new WeaponCard(Weapons.REVOLVER, "REPLACE W/ IMG FILE");
+        weaponCards.add(revolver);
         
         /////////////////////////////////////
         
-        RoomCard study = new RoomCard("Study", "REPLACE W/ IMG FILE");
+        RoomCard study = new RoomCard(Rooms.Study, "REPLACE W/ IMG FILE");
         roomCards.add(study);
-        RoomCard hall = new RoomCard("Hall", "REPLACE W/ IMG FILE");
+        RoomCard hall = new RoomCard(Rooms.Hall, "REPLACE W/ IMG FILE");
         roomCards.add(hall);
-        RoomCard lounge = new RoomCard("Lounge", "REPLACE W/ IMG FILE");
+        RoomCard lounge = new RoomCard(Rooms.Lounge, "REPLACE W/ IMG FILE");
         roomCards.add(lounge);
-        RoomCard library = new RoomCard("Library", "REPLACE W/ IMG FILE");
+        RoomCard library = new RoomCard(Rooms.Library, "REPLACE W/ IMG FILE");
         roomCards.add(library);
-        RoomCard billiard = new RoomCard("Billiard Room", "REPLACE W/ IMG FILE");
+        RoomCard billiard = new RoomCard(Rooms.Billiards, "REPLACE W/ IMG FILE");
         roomCards.add(billiard);
-        RoomCard dining = new RoomCard("Dining Room", "REPLACE W/ IMG FILE");
+        RoomCard dining = new RoomCard(Rooms.Dining, "REPLACE W/ IMG FILE");
         roomCards.add(dining);
-        RoomCard conservatory = new RoomCard("Conservatory", "REPLACE W/ IMG FILE");
+        RoomCard conservatory = new RoomCard(Rooms.Conservatory, "REPLACE W/ IMG FILE");
         roomCards.add(conservatory);
-        RoomCard ballroom = new RoomCard("Ballroom", "REPLACE W/ IMG FILE");
+        RoomCard ballroom = new RoomCard(Rooms.Ballroom, "REPLACE W/ IMG FILE");
         roomCards.add(ballroom);
-        RoomCard kitchen = new RoomCard("Kitchen", "REPLACE W/ IMG FILE");
+        RoomCard kitchen = new RoomCard(Rooms.Kitchen, "REPLACE W/ IMG FILE");
         roomCards.add(kitchen);
                 
     }

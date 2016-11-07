@@ -4,8 +4,8 @@
  */
 public class Solution {
 	
-    private Character character;   
-    private Weapon weapon;
+    private SuspectCard character;   
+    private WeaponCard weapon;
     private RoomCard roomCard;
     
     /**
@@ -14,7 +14,7 @@ public class Solution {
      * @param weapon
      * @param roomCard
      */
-    public Solution(Character character, Weapon weapon, RoomCard roomCard ){
+    public Solution(SuspectCard character, WeaponCard weapon, RoomCard roomCard ){
         this.character = character;
         this.weapon = weapon;
         this.roomCard = roomCard;        
@@ -24,7 +24,7 @@ public class Solution {
      * Character getter
      * @return the Character variable value
      */
-    public Character getCharacter(){
+    public SuspectCard getCharacterCard(){
         return this.character;
     }
     
@@ -32,7 +32,7 @@ public class Solution {
      * Weapon getter
      * @return the Weapon variable value
      */
-    public Weapon getWeapon(){
+    public WeaponCard getWeaponCard(){
         return this.weapon;
     }
     

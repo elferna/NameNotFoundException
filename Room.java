@@ -10,11 +10,13 @@ import java.util.ArrayList;
 public class Room {
 	
     private ArrayList<Player> players;
-    private boolean isInHallway;
+    private boolean isHallway;
     private boolean hasSecretPassage;
     private int xPos;
     private int yPos;  
     private String name;
+    
+    private Rooms room;
 
     /**
      * Room constructor
@@ -24,13 +26,24 @@ public class Room {
      * @param isHallway
      * @param hasSecretPassage
      */
-    public Room(String name, int xPos, int yPos, boolean isInHallway, boolean hasSecretPassage){
+    public Room(Rooms r, int xPos, int yPos, boolean isHallway, boolean hasSecretPassage){
         players = new ArrayList<Player>();
-        this.name = name;
+        this.name = r.toString();
         this.xPos = xPos;
         this.yPos = yPos;
-        this.isInHallway = isInHallway;
+        this.isHallway = isHallway;
         this.hasSecretPassage = hasSecretPassage;
+        this.room = r;
+    }
+    
+    public Room(String n, int xPos, int yPos, boolean isHallway, boolean hasSecretPassage){
+        players = new ArrayList<Player>();
+        this.name = n;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.isHallway = isHallway;
+        this.hasSecretPassage = hasSecretPassage;
+        
     }
     
     /**
@@ -69,8 +82,8 @@ public class Room {
      * isHallwway getter
      * @return isHallway
      */
-    public boolean isInHallway(){
-        return this.isInHallway;
+    public boolean isHallway(){
+        return this.isHallway;
     }
     
     /**
@@ -78,7 +91,7 @@ public class Room {
      * @return true if room is blocked, false otherwise
      */
     public boolean isBlocked(){
-        if(this.isInHallway()){
+        if(this.isHallway()){
             if(this.players.size() > 0){
                 return true;
             }
@@ -89,6 +102,18 @@ public class Room {
     @Override
     public String toString(){
     	return this.name;
+    }
+    
+    public ArrayList<Player> getPlayers(){
+        return this.players;
+    }
+    
+    public void addPlayer(Player p){
+        this.players.add(p);
+    }
+    
+    public void removePlayer(Player p){
+        players.remove(p);
     }
 
 }

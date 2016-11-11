@@ -8,18 +8,26 @@
  *
  * @author Zac
  */
-public class Weapon extends Card{
+public class WeaponCard extends Card{
     
     String type = "";
+    Weapons weapon;
     
     /**
      * Weapon constructor
      * @param name
      * @param fileName
      */
-    public Weapon(String name, String fileName) {
-        super(name, fileName);
+    public WeaponCard(Weapons w, String fileName) {
+        super(w.toString(), fileName);
         this.type = "WEAPON";
+        weapon = w;
     }
+    
+    public Weapons getWeapon(){
+        return this.weapon;
+    }
+    
+    
     
 }

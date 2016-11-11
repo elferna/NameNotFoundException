@@ -18,6 +18,7 @@ public class Player implements PlayerInterface{
     private ArrayList<Card> toShow;
     private Room currentRoom;
     private Character person;
+    private SuspectToken token;
   
     /**
      * Player constructor
@@ -36,6 +37,20 @@ public class Player implements PlayerInterface{
      */
     public void UpdateCharacter(Room room){
     	//Update String and Character
+        this.currentRoom.removePlayer(this);
+        room.addPlayer(this);
+        this.currentRoom = room;
+        
+        //move token
+        this.token.setLocation(room.getXPos(), room.getYPos());
+    }
+    
+    public SuspectToken getToken(){
+        return this.token;
+    }
+    
+    public void setToken(SuspectToken t){
+        this.token = t;
     }
     
     /**
@@ -51,7 +66,7 @@ public class Player implements PlayerInterface{
      * @return
      */
     public boolean isInHallway(){
-        return this.currentRoom.isInHallway();
+        return this.currentRoom.isHallway();
     }
     
     /**
@@ -64,18 +79,23 @@ public class Player implements PlayerInterface{
     }
     
     /**
-     * Not sure what this does
+     * empties the list of possible cards to show after a suggestion
+     * is made
      */
     public void emptyToShow(){
         this.toShow.clear();
     }
     
     /**
-     * Not sure what this does
+     * returns a list of cards to show after a suggestion is made
      * @param c
      */
     public void addToShow(Card c){
         this.toShow.add(c);
+    }
+    
+    public ArrayList<Card> getToShow(){
+        return this.toShow;
     }
 
   
@@ -83,8 +103,8 @@ public class Player implements PlayerInterface{
 	 * Print the action of a player??? Confirm this comment
 	 */
 	public void displayPopUp(Solution guess) {
-		System.out.println("A Player has guessed" + guess.getCharacter().toString()+ "did it" +
-				"with a " + guess.getWeapon().toString() + "in the " + guess.getRoomCard().toString());
+		System.out.println("A Player has guessed" + guess.getCharacterCard().toString()+ "did it" +
+				"with a " + guess.getWeaponCard().toString() + "in the " + guess.getRoomCard().toString());
 		
 	}
 

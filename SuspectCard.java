@@ -8,17 +8,24 @@
  *
  * @author Zac
  */
-public class Character extends Card{
+public class SuspectCard extends Card{
     
    private String type = "";
+   private Suspects suspect;
    
    /**
     * Character constructor
-    * @param name
+     * @param s
     * @param fileName
     */
-   public Character(String name, String fileName){
-       super(name, fileName);
-       this.type = "CHARACTER";
+   public SuspectCard(Suspects s, String fileName){      
+       super(s.toString(), fileName);
+       this.type = "SUSPECT";  
+       this.suspect = s;
    }   
+   
+   
+   public Suspects getSuspect(){
+       return this.suspect;
+   }
 }

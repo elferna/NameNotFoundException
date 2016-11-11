@@ -11,14 +11,21 @@
 public class RoomCard extends Card{
     
     private String type = "";
+    Rooms room;
     
     /**
      * RoomCard constructor
      * @param name
      * @param fileName
      */
-    public RoomCard(String name, String fileName){
-        super(name, fileName);
+    public RoomCard(Rooms r, String fileName){
+        super(r.toString(), fileName);
         this.type = "ROOM";
+        this.room = r;
+        
+    }
+    
+    public Rooms getRoom(){
+        return this.room;
     }
 }

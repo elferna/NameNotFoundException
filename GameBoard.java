@@ -27,6 +27,8 @@ public final class GameBoard {
     private int currentTurn = 0;
     
     ArrayList<Room> validMoves;
+    
+   
 
     
     /**   
@@ -54,7 +56,13 @@ public final class GameBoard {
        combineDeck();
        shuffleAll(allCards);
        this.isOver = false;
+       
     }
+    
+    public int getCurrentTurn(){
+    	return this.currentTurn;
+    }
+    
     
     /**
      * Players getter
@@ -225,6 +233,7 @@ public final class GameBoard {
 			case 1: //move();
 					//p.check if he was moved here or if he moved himself
 					//if(p.currentRoom)
+				
 					System.out.println("Please select your requested location" + validMoves.toString()+ "type in '3 enter 0 enter,");
 					try{
 						x = userInput.nextInt();
@@ -265,7 +274,8 @@ public final class GameBoard {
                                         
 					break;
 					
-			case 3://accusation
+			case 3://accusation			
+					
 					System.out.println("Which weapon" + this.weaponCards.toString());
 					_w = this.weaponCards.get(userInput.nextInt());
 					
@@ -283,6 +293,56 @@ public final class GameBoard {
 		
         }
         return value;
+    }
+    
+    public void disproveSuggestion(Player p, Solution s){
+    	int otherIndex;
+    	
+    	// current turn is the last player
+    	if((currentTurn + 1) >= players.size()){
+    		otherIndex = 0;
+    	}
+    	// current turn is not the last players
+    	else{
+    		otherIndex = currentTurn++;
+    	}    	
+    	
+    	// get the next player
+    	Player otherPlayer = players.get(otherIndex);
+    	while(!p.equals(otherPlayer)){    		
+    		ArrayList<Card> showableCards = cardsToShow(otherPlayer, s);
+			
+    		//player has no cards in the suggestion
+			if(showableCards.isEmpty()){
+				System.out.println("YOU CANNOT DISPROVE THIS SUGGESTION");
+			}
+			//player has cards to disprove suggestion
+			else{
+				// display the cards with the UI
+    			/////////////////////////////////
+				System.out.println("Choices: ");
+				for(int j = 0; j < showableCards.size(); j++){
+					System.out.println(showableCards.get(j).toString());
+				}
+				
+				///////////////
+				//have player choose a card to show
+				///////////////
+				
+			}
+			
+			// move on to the next player
+			if((otherIndex + 1) >= players.size()){
+	    		otherIndex = 0;
+	    	}
+	    	else{
+	    		otherIndex = currentTurn++;
+	    	}
+			
+			otherPlayer = players.get(otherIndex);		
+    		
+    	}
+    	
     }
     
     
@@ -332,7 +392,7 @@ public final class GameBoard {
         																					   //No need to be player.size()-1, if we start at
         																					   //0, then 0 to the number less than the size,
         																					   //we will cover all the players
-            this.currentTurn++;
+        	this.currentTurn++;
         }
         else{
             this.currentTurn = 0;
@@ -673,6 +733,10 @@ public final class GameBoard {
      */
     public boolean isGameOver(){
         return this.isOver;
+    }
+    
+    public void setIsOver(boolean b){
+    	this.isOver = b;
     }
     
     /**

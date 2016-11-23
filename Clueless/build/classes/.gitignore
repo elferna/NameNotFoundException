@@ -1,1 +1,9 @@
 /GameBoard.class
+/Player.class
+/PlayerInterface.class
+/Solution.class
+/Card.class
+/Room.class
+/TokenInterface.class
+/SuspectToken.class
+/WeaponToken.class

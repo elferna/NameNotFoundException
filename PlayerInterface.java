@@ -1,6 +1,6 @@
 
 public interface PlayerInterface {
 
-	public void displayPopUp(Solution guess);
-	public void displayTurn(String guesser);
+	public void displayPopUp(String temp);//receive notification
+	public Solution sendSolution(Solution guess);//notification (disprove?)
 }

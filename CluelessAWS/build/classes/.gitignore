@@ -1,1 +1,4 @@
 /TokenInterface.class
+/GameSessionWebsocketServer.class
+/GameMessageDecoder.class
+/GameMessageEncoder.class

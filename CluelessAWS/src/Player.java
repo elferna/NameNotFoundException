@@ -13,12 +13,13 @@ import javax.swing.JOptionPane;
 
 public class Player {
 
+	private String sessionId;
 	private ArrayList<Card> hand;
     private String name;
     private boolean isTurn;
     private ArrayList<Card> toShow;
     private Room currentRoom;
-    private Character person;
+//    private Character person;
     private SuspectToken token;
   
     /**
@@ -32,11 +33,35 @@ public class Player {
         this.currentRoom = room;
     }
     
+    public Player(String id) {
+    	this.sessionId = id;
+    }
+    
+    public Player() {
+
+    }
+    
     /**
+     * Gets the session id for the player.
+	 * @return the sessionId
+	 */
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	/**
+	 * Sets the session id for the player.
+	 * @param sessionId the sessionId to set
+	 */
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	/**
      * Update the character
      * @param room
      */
-    public void UpdateCharacter(Room room){
+    public void updateCharacter(Room room){
     	//Update String and Character
         this.currentRoom.removePlayer(this);
         room.addPlayer(this);
@@ -140,4 +165,6 @@ public class Player {
 	public void setTurn(boolean isTurn) {
 		this.isTurn = isTurn;
 	}
+	
+	public void destroy() {
 }

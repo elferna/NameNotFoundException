@@ -10,5 +10,5 @@ import java.util.List;
 
 public class GameSession {
 
-	private List<Player> players = ArrayList<Player>;
+	private List<Player> players = new ArrayList<Player>();
 }

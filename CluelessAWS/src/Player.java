@@ -103,11 +103,11 @@ public class Player {
     /**
 	 * Print the action of a player??? Confirm this comment
 	 */
-	public void displayPopUp(Solution guess) {
+//	public void displayPopUp(Solution guess) {
 //		System.out.println("A Player has guessed" + guess.getCharacterCard().toString()+ "did it" +
 //				"with a " + guess.getWeaponCard().toString() + "in the " + guess.getRoomCard().toString());
 //		
-	}
+//	}
 
 	/**
 	 * Display the turn of player

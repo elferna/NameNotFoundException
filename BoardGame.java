@@ -528,10 +528,12 @@ public class BoardGame {
     		Position p = new Position (player.getPlayerCharacter().getX(),player.getPlayerCharacter().getY());
     		if(isInHallway(p.getX(),p.getY()))
     		{
-    			if(validMoves.contains(p))
-    			{
-    				validMoves.remove(p);
+			for(int i = 0; i < validMoves.size(); i++){
+    				if(p.equals(validMoves.get(i))){
+    					validMoves.remove(p);
+    				}
     			}
+
     		}
     		
     	}

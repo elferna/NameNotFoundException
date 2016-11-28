@@ -22,7 +22,7 @@ import javax.json.JsonReader;
 public class GameSessionWebsocketServer {
 
 	@Inject
-	private GameSessionHandler sessionHandler;
+	private GameSessionHandler sessionHandler = new GameSessionHandler();
 	
 	/**
 	 * When a connection is opened, add

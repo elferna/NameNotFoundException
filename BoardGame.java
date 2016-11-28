@@ -385,6 +385,16 @@ public class BoardGame {
 		System.out.println("Which Character\n" + this.printArrayValues(this.suspectCards));
 		_s = this.suspectCards.get(this.respondToPlayerInput(6)-1);
 		value = new Solution( _s, _r,_w );
+		
+		// find the player connected to the suggest suspect card and 
+		// move their card "into" the suggested room
+		for( int i = 0; i < AllUsers.size(); i++){
+			Player player = AllUsers.get(i);
+			
+			if(player.getPlayerCharacter().equals(_s)){
+				player.getPlayerCharacter().updateLocation(p, true); 				
+			}			
+		}
 		return value;
 	}
 	public void move(ArrayList<Position>validMoves, Player player){

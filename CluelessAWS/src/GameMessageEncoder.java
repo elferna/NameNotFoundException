@@ -17,7 +17,7 @@ public class GameMessageEncoder implements Encoder.Text<GameMessage>{
 	}
 
 	@Override
-	public String encode(GameMessage arg0) throws EncodeException {
+	public String encode(GameMessage message) throws EncodeException {
 		// TODO Auto-generated method stub
 		return null;
 	}

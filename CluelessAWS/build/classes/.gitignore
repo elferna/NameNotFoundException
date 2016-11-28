@@ -1,4 +1,11 @@
-/TokenInterface.class
-/GameSessionWebsocketServer.class
+/Card.class
+/GameMessage.class
 /GameMessageDecoder.class
 /GameMessageEncoder.class
+/GameSession.class
+/GameSessionHandler.class
+/GameSessionWebsocketServer.class
+/Player.class
+/Room.class
+/SuspectToken.class
+/TokenInterface.class

@@ -167,4 +167,6 @@ public class Player {
 	}
 	
 	public void destroy() {
-}
+	}
+}	
+	

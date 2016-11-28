@@ -115,6 +115,10 @@ public class BoardGame {
 	    this.suspectCards.add(answer.Person);
 	    this.roomCards.add(answer.Place);
 	    this.weaponCards.add(answer.Weapon);
+		
+	    //Collections.shuffle(this.suspectCards);
+	    //Collections.shuffle(this.weaponCards);
+	    //Collections.shuffle(this.roomCards);
 	    
 	}
 	/**

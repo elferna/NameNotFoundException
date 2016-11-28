@@ -18,9 +18,9 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/Program Files/Java/cdi-api-2.0-EDR2.jar"/>
-	<classpathentry kind="lib" path="E:/Program Files/Java/javax.json-1.0.2.jar"/>
-	<classpathentry kind="lib" path="E:/Program Files/Java/javax.websocket-api-1.1.jar"/>
-	<classpathentry kind="lib" path="E:/Program Files/Java/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="libs/cdi-api-2.0-EDR2.jar"/>
+	<classpathentry kind="lib" path="libs/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="libs/javax.json-1.0.2.jar"/>
+	<classpathentry kind="lib" path="libs/javax.websocket-api-1.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

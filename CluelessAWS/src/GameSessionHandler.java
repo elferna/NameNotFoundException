@@ -39,7 +39,7 @@ public class GameSessionHandler {
 	 */
 	public void addPlayer(Session session) {
 		connectedPlayers.put(session, new Player(session.getId()));
-		System.out.println("PLAYER CREATED :: " +connectedPlayers.get(session.getId()).getSessionId());
+		System.out.println("PLAYER CREATED :: " +connectedPlayers.size());
 	}
 	
 	public Player getPlayer(String id) {

@@ -144,7 +144,7 @@ public class BoardGame {
 		{		
 			System.out.println("Please Select a Character: \n");
 			for(int i=0;i<characters.size(); i++){
-				System.out.println("\t"+(i+1)+ " "+ characters.get(i));
+				System.out.println("\t"+(i+1)+ " "+ characters.get(i).toString());
 			}
 		    int choice = respondToPlayerInput(characters.size());
 		    player.setPlayerCharacter(characters.get(choice-1));

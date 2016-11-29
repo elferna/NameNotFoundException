@@ -115,10 +115,12 @@ public class BoardGame {
 	    this.suspectCards.add(answer.Person);
 	    this.roomCards.add(answer.Place);
 	    this.weaponCards.add(answer.Weapon);
-		
-	    //Collections.shuffle(this.suspectCards);
-	    //Collections.shuffle(this.weaponCards);
-	    //Collections.shuffle(this.roomCards);
+            
+            /////////////////////////////////////////////
+            //Collections.shuffle(this.suspectCards);
+            //Collections.shuffle(this.roomCards);
+            //Collections.shuffle(this.weaponCards);
+            /////////////////////////////////////////////
 	    
 	}
 	/**
@@ -144,7 +146,7 @@ public class BoardGame {
 		{		
 			System.out.println("Please Select a Character: \n");
 			for(int i=0;i<characters.size(); i++){
-				System.out.println("\t"+(i+1)+ " "+ characters.get(i).toString());
+				System.out.println("\t"+(i+1)+ " "+ characters.get(i));
 			}
 		    int choice = respondToPlayerInput(characters.size());
 		    player.setPlayerCharacter(characters.get(choice-1));
@@ -385,20 +387,11 @@ public class BoardGame {
 		System.out.println("Which Character\n" + this.printArrayValues(this.suspectCards));
 		_s = this.suspectCards.get(this.respondToPlayerInput(6)-1);
 		value = new Solution( _s, _r,_w );
-		
-		// find the player connected to the suggest suspect card and 
-		// move their card "into" the suggested room
-		for( int i = 0; i < AllUsers.size(); i++){
-			Player player = AllUsers.get(i);
-			
-			if(player.getPlayerCharacter().equals(_s)){
-				player.getPlayerCharacter().updateLocation(p, true); 				
-			}			
-		}
 		return value;
 	}
 	public void move(ArrayList<Position>validMoves, Player player){
 		System.out.println("Please select your requested location:\n" + this.printPositionArrayValues(validMoves));
+                           
 		int choice = this.respondToPlayerInput(validMoves.size());                  
 		player.getPlayerCharacter().updateLocation(validMoves.get(choice-1), true);
 	}
@@ -542,12 +535,10 @@ public class BoardGame {
     		Position p = new Position (player.getPlayerCharacter().getX(),player.getPlayerCharacter().getY());
     		if(isInHallway(p.getX(),p.getY()))
     		{
-			for(int i = 0; i < validMoves.size(); i++){
-    				if(p.equals(validMoves.get(i))){
-    					validMoves.remove(p);
-    				}
+    			if(validMoves.contains(p))
+    			{
+    				validMoves.remove(p);
     			}
-
     		}
     		
     	}
@@ -576,7 +567,12 @@ public class BoardGame {
 	public String printPositionArrayValues(ArrayList<Position>array){
 		StringBuilder str = new StringBuilder();
 		for(int i=0; i<array.size(); i++){
-			str.append(String.valueOf(i+1)+ ". " + array.get(i).toString()+"\n");
+			str.append(String.valueOf(i+1)+ ". " + array.get(i).toString()
+                                /////////////////////////
+                                + " " +
+                                findRoomFromPosition(array.get(i)).toString() +
+                                ////////////////////////
+                                "\n");
 		}
 		return str.toString();
 	}
@@ -600,8 +596,17 @@ public class BoardGame {
 	{
 		boolean gameOver = false;
 		OrganizePlayerTurns();
+                ///////////////////////
+                for(int i =0; i < AllUsers.size(); i++){
+                    System.out.println(AllUsers.get(i).toString());
+                    System.out.println(printArrayValues(AllUsers.get(i).getHand()));
+                }
+                ////////////////////////
 		while(!gameOver)
 		{
+                    ////
+                    gameLoop:
+                    ////
 			for (int i=0; i<AllUsers.size();i++)
 			{
 				Player user = AllUsers.get(i);
@@ -635,6 +640,10 @@ public class BoardGame {
 							notifyAllPlayers("The game is Over." + user.toString() + "Solved the solution.\n"
 									+ "The Solution was " + guess.toString());
 							gameOver = true;
+                                                        System.out.println(gameOver);
+                                                        break gameLoop;
+                                                               
+                                                        
 							
 						}
 						else{
@@ -648,14 +657,22 @@ public class BoardGame {
 			}
 		}
 	}
+    
+        public ArrayList<Player> getPlayers(){
+            return this.AllUsers;
+        }
 	public static void main(String[] args) 
 	{
 		ArrayList<Player>temp = new ArrayList<Player>();
 		temp.add(new Player("P1"));
 		temp.add(new Player("P2"));
 		temp.add(new Player("P3"));
+                //temp.add(new Player("P4"));
+                //temp.add(new Player("P5"));
+                //temp.add(new Player("P6"));
 		BoardGame BG = new BoardGame(temp,1);
 		BG.initializeGame(temp);
+                
 		BG.play();
 	}
 }

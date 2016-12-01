@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 
@@ -13,7 +14,7 @@ import javax.swing.JOptionPane;
 
 public class Player {
 
-	private String sessionId;
+	private String id;
 	private ArrayList<Card> hand;
     private String name;
     private boolean isTurn;
@@ -33,28 +34,16 @@ public class Player {
         this.currentRoom = room;
     }
     
-    public Player(String id) {
-    	this.sessionId = id;
-    }
-    
     public Player() {
-
+    	this.id = generateId();
     }
     
     /**
      * Gets the session id for the player.
 	 * @return the sessionId
 	 */
-	public String getSessionId() {
-		return sessionId;
-	}
-
-	/**
-	 * Sets the session id for the player.
-	 * @param sessionId the sessionId to set
-	 */
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
+	public String getId() {
+		return this.id;
 	}
 
 	/**
@@ -167,6 +156,37 @@ public class Player {
 	}
 	
 	public void destroy() {
+	}
+	
+	/**
+	 * Generates a 20-character sequence of letters 
+	 * and numbers to represent an id for the game session.
+	 * 
+	 * @return id
+	 */
+	private String generateId() {
+		String resultId = "";
+		Random coinToss = new Random();
+		Random chooseLetter = new Random();
+		Random chooseNum = new Random();
+		
+		String alphabet[] = {"a", "b", "c", "d", "e", "f", "g",
+		                     "h", "i", "j", "k", "l", "m", "n",
+		                     "o", "p", "q", "r", "s", "t", "u",
+		                     "v", "w", "x", "y", "z"};
+		String numbers[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+		
+		for(int i=0; i < 20; i++) {
+			
+			if(coinToss.nextInt(2) == 0) {
+				resultId = resultId.concat(alphabet[chooseLetter.nextInt(26)]);
+			}
+			
+			else if (coinToss.nextInt(2) == 1) {
+				resultId = resultId.concat(numbers[chooseNum.nextInt(10)]);
+			}
+		}
+		return resultId;
 	}
 }	
 	

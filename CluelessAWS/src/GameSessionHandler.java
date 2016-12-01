@@ -29,6 +29,10 @@ public class GameSessionHandler {
 	private Set<GameSession> gameSessions = Collections.synchronizedSet(new HashSet<>());
 	private Map<Session, Player> connectedPlayers = Collections.synchronizedMap(new HashMap<>()); 
 	
+	public GameSessionHandler() {
+		super();
+	}
+
 	/**
 	 * Create a new instance
 	 * of Player, associate the instance with the session
@@ -38,12 +42,16 @@ public class GameSessionHandler {
 	 * @param session
 	 */
 	public void addPlayer(Session session) {
-		connectedPlayers.put(session, new Player(session.getId()));
+		connectedPlayers.put(session, new Player());
 		System.out.println("PLAYER CREATED :: " +connectedPlayers.size());
 	}
 	
 	public Player getPlayer(String id) {
 		return connectedPlayers.get(id);
+	}
+	
+	public Player getPlayer(Session sesssion) {
+		return connectedPlayers.get(sesssion);
 	}
 	
 	public void addNewGameSession(Player player) {

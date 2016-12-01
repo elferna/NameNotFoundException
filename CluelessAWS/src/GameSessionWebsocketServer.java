@@ -37,7 +37,7 @@ public class GameSessionWebsocketServer {
 		System.out.println("CONNECTION INFO :: " +session.getId());
 		sessionHandler.addPlayer(session);
 		try {
-			session.getBasicRemote().sendText(sessionHandler.getPlayer(session.getId()).getSessionId());
+			session.getBasicRemote().sendText(sessionHandler.getPlayer(session).getId());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

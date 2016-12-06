@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="customjs.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        
+    </head>
+    <body>
+
+	<!--GUI starts here -->
+    <!-- It is divided in columns and rows -->
+    <div class="container-fluid">
+    	<div class="row" style="background-color: red; height: 640px;">
+            <div class="col-md-8" style="background-color: blue; height: 100%;">
+                <div id="mainBoardSection" class="row" style="background-color: red; height: 68%;">
+                    <div class="col-md-12 " style="background-color: red; height: 100%;">
+                        <!--added space header-->
+                        <div class="row" style="background-color: black; height: 3%;"></div>
+                        <!-- Data on the left-->
+                        <div id="board-matrix" class="row" style="background-color: yellow; height: 94%;">
+                			<div id="gameBoardInfoSection" class="col-md-2" style="background-color: violet; height: 100%;">
+                 	 			<div class="row" style="background-color: red; height: 10%;">
+                       				<div class="col-md-12" style="background-color: blue; height: 100%;">Online Status: green color</div>
+                  				</div>
+                  				<div class="row" style="background-color: red; height: 10%;">
+                       				<div class="col-md-12" style="background-color: red; height: 100%;">Player Name:</div>
+                  				</div>
+                  				<div class="row" style="background-color: red; height: 10%;">
+                       				<div class="col-md-12" style="background-color: yellow; height: 100%;">Number of Players:</div>
+                  				</div>
+                  				<div class="row" style="background-color: red; height: 10%;">
+                       				<div class="col-md-12" style="background-color: blue; height: 100%;">Timeout:</div>
+                  				</div>
+                  				<div class="row" style="background-color: red; height: 10%;">
+                       				<div class="col-md-12" style="background-color: pink; height: 100%;">Turn:</div>
+                 	 			</div>
+                 				<div class="row" style="background-color: red; height: 10%;">
+                       				<div class="col-md-12" style="background-color: green; height: 100%;">
+                       					<button class="btn" id="startGameBtn" type="button">Start Game</button>
+                       				</div>
+                  				</div>
+                  				<div class="row" style="background-color: red; height: 30%;">
+                      				<div class="col-md-12" style="background-color: blue; height: 100%;"></div>
+                       			</div>
+                       			<div class="row" style="background-color: red; height: 10%;">
+                       				<div class="col-md-12" style="background-color: green; height: 100%;">
+										<button class="btn" id="helpButton" type="button">Help</button>
+                       				</div>
+                  				</div>  
+                			</div>
+                            
+                            <!-- Board -->
+                            <div id="gameBoard" class="col-md-8" style="background-color: blue; height: 100%;">
+                            	<div class="row" style="background-color: red; height: 14.28%;"></div>
+                                <div class="row" style="background-color: green; height: 14.28%;"></div>
+                                <div class="row" style="background-color: yellow; height: 14.28%;"></div>
+                                <div class="row" style="background-color: green; height: 14.28%;"></div>
+                                <div class="row" style="background-color: yellow; height: 14.28%;"></div>
+                                <div class="row" style="background-color: green; height: 14.28%;"></div>
+                                <div class="row" style="background-color: yellow; height: 14.28%;"></div>
+                            </div>
+                            
+							<!-- Game Chat -->
+                			<div id="gameChatSection" class="col-md-2" style="background-color: violet; height: 100%;">
+                  				<div class="row" style="background-color: red; height: 5%;">
+                       				<div class="col-md-12" style="background-color: white; height: 100%; padding: 0px;">
+                       					<text style="height:100%; width:100%; background-color: white;">Chat:</text>
+                       				</div>
+                  				</div>
+                  				<div class="row" style="background-color: red; height: 67%;">
+                       				<div id="chatMsgArea" class="col-md-12" style="overflow-y:scroll !important;background-color: white; height: 100%; padding: 0px;">
+                       				</div>
+                  				</div>
+                  				<div class="row" style="background-color: red; height: 20%;">
+                       				<div class="col-md-12" style="background-color: green; height: 100%;padding: 0px;">
+                       					<textarea id="chatMsgSpace" style="height: 100%; max-width: 100%;"></textarea>
+                      	 			</div>
+                  				</div>
+                  				<div class="row" style="background-color: red; height: 8%;">
+                       				<div class="col-md-12" style="background-color: green; height: 100%;padding: 0px;">
+                       					<button class="btn" id="chatSendBtn" type="button" style="height:100%;width: 100%;">Send</button>
+                       				</div>
+                  				</div>
+                			</div>
+                		</div>
+                        
+                        <!--added space bottom, not being used for anything else-->
+                        <div id="gameNotificationsSection" class="row" style="background-color: #add8e6; height: 3%;">              
+                        </div>
+                                              
+                    </div>
+                </div>
+                <div id="cardSection" class="row" style="background-color: blue; height: 12%;">
+            		<div class="col-md-12 col-md-offset-2" style="background-color: #D3D3D3; height: 100%;">
+              			<div class="row" style="background-color: blue; height: 100%;">
+               			</div>
+           	 		</div>
+                </div>
+
+          		<!--Buttons -->
+                <div class="row" style="background-color: green; height: 10%;">
+          			<form id="accusationForm">
+            			<div class="col-md-2" style="height: 100%;">
+           					<div class="form-group">
+            					<label for="sel1">Who:</label>
+      							<select class="form-control" id="sel1" name="who">
+        							<option>Green</option>
+        							<option>Mustard</option>
+        							<option>Orchid</option>
+        							<option>Plum</option>
+        							<option>Scarllet</option>
+        							<option>White</option>
+      							</select>
+      						</div>
+      					</div>
+      					<div class="col-md-3" style="height: 100%;">
+           					<div class="form-group">
+            					<label for="sel2">What:</label>
+     							<select class="form-control" id="sel2" name="what">
+        							<option>Candlestick</option>
+                    				<option>Dagger</option>
+                    				<option>Lead Pipe</option>
+                    				<option>Revolver</option>
+                    				<option>Rope</option>
+                    				<option>Wrench</option>
+      							</select>
+      						</div>
+      					</div>
+      					<div class="col-md-3" style="height: 100%;">
+           					<div class="form-group">
+            					<label for="sel3">Where:</label>
+      							<select class="form-control" id="sel3" name="where">
+        							<option>Ballroom</option>
+                    				<option>Billard Room</option>
+                    				<option>Conservatory</option>
+                    				<option>Dining Room</option>
+                    				<option>Hall</option>
+                    				<option>Kitchen</option>
+                    				<option>Library</option>
+                    				<option>Lounge</option>
+                    				<option>Study</option>
+      							</select>
+      						</div>
+      					</div>
+           
+            			<div class="col-md-2 " style="height: 100%; text-align: center;">
+                			<br>
+                       		<button class="btn" id="suggestionButton" name="suggestion">Suggestion</button>
+            			</div>
+            			<div class="col-md-2 " style="height: 100%; text-align: center;">
+            				<br>
+               				<button class="btn" id="accusationButton" name="accusation">Accusation</button>
+           			 	</div>
+            		</form>
+                </div>
+
+				<!-- Last row, as for now, it doesn't have anything -->
+                <div class="row" style="background-color: violet; height: 5%;">                   
+                </div>
+            </div>
+
+        	<!-- Right side of GUI, where the note taking tables are positioned -->
+         	<!-- It is splitted in two, to the left the name of players, item or rooms and to the right the empty boxes -->
+            <div class="col-md-4 col-md-o" style="background-color: green; height: 100%;">
+          		<div class="row" style="background-color: black; height: 3%;">
+          		</div>
+                <div class="row" style="background-color: pink; height: 30%;">
+              		<div class="col-md-3" style="background-color: blue; height: 100%;"> 
+               			<div class="row" style="background-color: #add8e6; border-style: solid; height: 12.5%;"><p>Player</p></div>
+               			 <div class="row" style="background-color: #add8e6; border-style: solid; height: 12.5%;"><p><b>WHO?</b></p></div>
+                		<div class="row" style="background-color: #add8e6; border-style: solid; height: 12.5%;"><p>Green</p></div>
+                		<div class="row" style="background-color: #add8e6; border-style: solid; height: 12.5%;"><p>White</p></div>
+                		<div class="row" style="background-color: #add8e6; border-style: solid; height: 12.5%;"><p>Mustard</p></div>
+                		<div class="row" style="background-color: #add8e6; border-style: solid; height: 12.5%;"><p>Orchid</p></div>
+                		<div class="row" style="background-color: #add8e6; border-style: solid; height: 12.5%;"><p>Plum</p></div>
+                		<div class="row" style="background-color: #add8e6; border-style: solid; height: 12.5%;"><p>Scarllet</p></div>
+  				    </div>
+            		<div class="col-md-9" style="background-color: blue; height: 100%;">
+              			<div id="noteTakingTableTop" class="row" style="background-color: #add8e6; height: 100%;">
+                			<div class=col-md-12 style="background-color: blue; height: 100%;">
+                  				<div class="row" style="background-color: #add8e6; height: 12.5%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 12.5%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 12.5%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 12.5%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 12.5%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 12.5%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 12.5%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 12.5%;"></div>
+                			</div>
+              			</div>
+            		</div>
+          		</div>
+
+          		<div class="row" style="background-color: black; height: 4%;">
+          		</div>
+           	 	<div class="row" style="background-color: black; height: 30%;">
+            		<div class="col-md-3" style="background-color: blue; height: 100%;"> 
+              			<div class="row" style="background-color: #add8e6; border-style: solid; height: 14.28%;"><p><b>WHAT?</b></p></div>
+              			<div class="row" style="background-color: #add8e6; border-style: solid; height: 14.28%;"><p>Candlestick</p></div>
+              			<div class="row" style="background-color: #add8e6; border-style: solid; height: 14.28%;"><p>Dagger</p></div>
+              			<div class="row" style="background-color: #add8e6; border-style: solid; height: 14.28%;"><p>Lead Pipe</p></div>
+              			<div class="row" style="background-color: #add8e6; border-style: solid; height: 14.28%;"><p>Revolver</p></div>
+              			<div class="row" style="background-color: #add8e6; border-style: solid; height: 14.28%;"><p>Rope</p></div>
+              			<div class="row" style="background-color: #add8e6; border-style: solid; height: 14.28%;"><p>Wrench</p></div>
+            		</div>
+            		<div class="col-md-9" style="background-color: blue; height: 100%;">
+              			<div id="noteTakingTableMiddle" class="row" style="background-color: #add8e6; height: 100%;">
+                			<div class=col-md-12 style="background-color: blue; height: 100%;">
+                  				<div class="row" style="background-color: #add8e6; height: 14.28%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 14.28%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 14.28%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 14.28%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 14.28%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 14.28%;"></div>
+                  				<div class="row" style="background-color: #add8e6; height: 14.28%;"></div>
+                			</div>
+              			</div>
+            		</div>
+				</div>
+			
+				<div class="row" style="background-color: black; height: 3%;">
+          		</div>
+                	<div class="row" style="background-color: brown; height: 30%;">
+            			<div class="col-md-3" style="background-color: blue; height: 100%;"> 
+              				<div class="row" style="background-color: #add8e6; border-style: solid; height: 10%;"><p><b>WHERE?</b></p></div>
+              				<div class="row" style="background-color: #add8e6; border-style: solid; height: 10%;"><p>Ballroom</p></div>
+              				<div class="row" style="background-color: #add8e6; border-style: solid; height: 10%;"><p>Billard Room</p></div>
+              				<div class="row" style="background-color: #add8e6; border-style: solid; height: 10%;"><p>Conservatory</p></div>
+              				<div class="row" style="background-color: #add8e6; border-style: solid; height: 10%;"><p>Dining Room</p></div>
+              				<div class="row" style="background-color: #add8e6; border-style: solid; height: 10%;"><p>Hall</p></div>
+              				<div class="row" style="background-color: #add8e6; border-style: solid; height: 10%;"><p>Kitchen</p></div>
+              				<div class="row" style="background-color: #add8e6; border-style: solid; height: 10%;"><p>Library</p></div>
+              				<div class="row" style="background-color: #add8e6; border-style: solid; height: 10%;"><p>Lounge</p></div>
+              				<div class="row" style="background-color: #add8e6; border-style: solid; height: 10%;"><p>Study</p></div>
+            			</div>
+            			<div class="col-md-9" style="background-color: blue; height: 100%;">
+              				<div id="noteTakingTableBottom" class="row" style="background-color: #add8e6; height: 100%;">
+                				<div class=col-md-12 style="background-color: blue; height: 100%;">
+                  					<div class="row" style="background-color: #add8e6; height: 10%;"></div>
+                  					<div class="row" style="background-color: #add8e6; height: 10%;"></div>
+                  					<div class="row" style="background-color: #add8e6; height: 10%;"></div>
+                  					<div class="row" style="background-color: #add8e6; height: 10%;"></div>
+                  					<div class="row" style="background-color: #add8e6; height: 10%;"></div>
+                  					<div class="row" style="background-color: #add8e6; height: 10%;"></div>
+                  					<div class="row" style="background-color: #add8e6; height: 10%;"></div>
+                  					<div class="row" style="background-color: #add8e6; height: 10%;"></div>
+                  					<div class="row" style="background-color: #add8e6; height: 10%;"></div>
+                  					<div class="row" style="background-color: #add8e6; height: 10%;"></div>
+                				</div>
+              				</div>
+            			</div>
+                	</div>
+
+            	</div>
+        	</div>
+        </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/customjs.js"></script>
+    </body>
+</html>

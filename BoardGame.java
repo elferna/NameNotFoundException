@@ -11,6 +11,8 @@ public class BoardGame {
     int GameInstanceNumber;
     private int[][] location;
     Solution answer;
+	
+	private ArrayList<String> yesAndNo;
  
 	public BoardGame(ArrayList<Player> AllUsers, int gameInstanceNumber) {
 		this.AllUsers = AllUsers;
@@ -19,6 +21,9 @@ public class BoardGame {
 		this.roomCards = new ArrayList<Card>();  
 		this.weaponCards = new ArrayList<Card>();
 	    this.suspectCards = new ArrayList<Card>();
+		this.yesAndNo = new ArrayList<String>();
+            this.yesAndNo.add("yes");
+            this.yesAndNo.add("no");
 	}
 	
 	
@@ -311,36 +316,65 @@ public class BoardGame {
         
         return validMoves;
     }
+	
+	public int confirmAccusation(){
+        System.out.println("Make an accusation?");
+        System.out.println("1. " + this.yesAndNo.get((0)));
+        System.out.println("2. " + this.yesAndNo.get((1)));
+                    
+        int response = respondToPlayerInput(yesAndNo.size());
+        
+        return response;
+    }
+	
+	
     public Solution takeTurn(Player player){
-     	printHeader(player);
-     	
+        printHeader(player);    	
+        
      	ArrayList<Position>validMoves = new ArrayList<Position>();
-		Position p = new Position(player.getPlayerCharacter().getX(),player.getPlayerCharacter().getY());
+        Position p = new Position(player.getPlayerCharacter().getX(),player.getPlayerCharacter().getY());
     	validMoves = getValidMoves(p);
      	
 		ArrayList<String>choices = printOptionsMenu(validMoves,player);
 		String option = this.respondToPlayerStringInput(choices);
 
-		Solution value = null;
-		
-		if (option.equals("accuse")){
-			value = accuse();
-			player.getTurnHistory().add("accuse");
-			player.setTurn(false);
-		}
-		else if(option.equals("move")){
-			move(validMoves,player);
-			player.getTurnHistory().add("move");
-		}
-		else if(option.equals("suggest")){			
-			value = suggest(p);
-			value.getPerson().updateLocation(p, true);
-			player.getTurnHistory().add("suggest");
-		}
-		else if(option.equals("pass")){			
-			player.setTurn(false);
-			player.getTurnHistory().clear();
-        }
+                boolean done = false;
+                
+		Solution value = null;                  
+                
+                while(!done){
+                    if (option.equals("accuse")){
+                        if(confirmAccusation() == 2){
+                            printOptionsMenu(validMoves,player);
+                            option = this.respondToPlayerStringInput(choices);
+                        }
+                        else{
+                            value = accuse();
+                            player.getTurnHistory().add("accuse");
+                            player.setTurn(false);
+                            done = true;
+                        }
+                            
+                    }
+                    else if(option.equals("move")){
+                            move(validMoves,player);
+                            player.getTurnHistory().add("move");
+                            done = true;
+                    }
+                    else if(option.equals("suggest")){			
+                            value = suggest(p);
+                            value.getPerson().updateLocation(p, true);
+                            player.getTurnHistory().add("suggest");
+                            player.getPlayerCharacter().setMovedHere(false);
+                            done = true;
+                    }
+                    else if(option.equals("pass")){			
+                            player.setTurn(false);
+                            player.getTurnHistory().clear();
+                            done = true;
+                    }
+                }
+                    
         return value;
     }
 	public Solution accuse(){

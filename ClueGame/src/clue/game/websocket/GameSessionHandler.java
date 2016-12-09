@@ -17,13 +17,15 @@ import javax.websocket.Session;
 import org.example.model.Device;
 import org.example.model.User;
 
+import clue.game.model.Player;
+
 
 @ApplicationScoped
 public class GameSessionHandler {
 	private int deviceId = 0;
 	private final Set<Session> sessions = new HashSet<>();
 	private final Set<Device> devices = new HashSet<>();
-	private final Set<User> users = new HashSet<>();
+	private final Set<Player> players = new HashSet<>();
 	private final Stack<String> namesArray = new Stack<String>();
 	
 	//Constructor with given names, this is just to try the concept
@@ -39,12 +41,12 @@ public class GameSessionHandler {
 	public synchronized void addSession(Session session){
 		this.sessions.add(session);
 		
-		User user = null;
+		Player player = null;
 		//It gets the names oout of a stack, this force that no repeated name will be given
 		if(!this.namesArray.isEmpty()){
 			if(!this.sessions.equals(session)){
-				user = new User(this.namesArray.pop(),session.getId());
-				this.users.add(user);
+				player = new Player(this.namesArray.pop(),session);
+				this.players.add(player);
 			}
 		}
 		
@@ -54,7 +56,7 @@ public class GameSessionHandler {
 			sendToSession(session, addMessage);
 		}
 		
-		this.sendToAllConnectedSessions(this.createChatMessage(user.name + " : " + user.sessionId));
+		this.sendToAllConnectedSessions(this.createChatMessage(player.getName() + " : " + player.getId()));
 	}
 	
 	public void removeSession(Session session){
@@ -77,9 +79,9 @@ public class GameSessionHandler {
 	public void broadcastMsg(Session session, String message){
 		//Creates a messages String from the message taken from the chat
 	    String tempMessageWithName = "";
-		for(User user : this.users){
-			if(user.sessionId == session.getId()){
-				tempMessageWithName = user.name + " : " + message;
+		for(Player player : this.players){
+			if(player.getId() == session.getId()){
+				tempMessageWithName = player.getName() + " : " + message;
 			}
 		}
 		//Creates JSON object and send

@@ -17,8 +17,8 @@ import javax.websocket.Session;
 public class Player {
 
 	private String id;
+	private String name;
 	private ArrayList<Card> hand;
-    private String name;
     private boolean isTurn;
     private ArrayList<Card> toShow;
     private Room currentRoom;
@@ -39,7 +39,8 @@ public class Player {
     	this.id = generateId();
     }
     
-    public Player(Session session) {
+    public Player(String name, Session session) {
+    	this.name = name;
     	this.id = session.getId();
     }
     

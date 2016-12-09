@@ -1,4 +1,4 @@
-package org.example.websocket;
+package clue.game.websocket;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-@ServerEndpoint("/actions")
+@ServerEndpoint("/gameActions")
 public class GameSessionWebSocketServer {
 	
 	@Inject

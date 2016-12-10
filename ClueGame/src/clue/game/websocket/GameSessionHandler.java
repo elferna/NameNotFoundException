@@ -1,4 +1,4 @@
-package org.example.websocket;
+package clue.game.websocket;
 
 import java.io.IOException;
 import java.util.ArrayList;

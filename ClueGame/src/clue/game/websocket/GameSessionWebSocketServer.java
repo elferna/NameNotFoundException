@@ -1,4 +1,4 @@
-package org.example.websocket;
+package clue.game.websocket;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;

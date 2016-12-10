@@ -7,7 +7,7 @@ if (loc.protocol === "https:") {
     newUri = "ws:";
 }
 newUri += "//" + loc.host;
-newUri += loc.pathname + "actions";
+newUri += loc.pathname + "gameActions";
 var socket = new WebSocket(newUri);
 socket.onmessage = onMessage;
 

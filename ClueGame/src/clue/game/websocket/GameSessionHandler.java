@@ -56,7 +56,7 @@ public class GameSessionHandler {
 			sendToSession(session, addMessage);
 		}
 		
-		this.sendToAllConnectedSessions(this.createChatMessage(player.getName() + " : " + player.getId()));
+		this.sendToAllConnectedSessions(this.createChatMessage(player.getPlayerName() + " : " + player.getId()));
 	}
 	
 	public void removeSession(Session session){
@@ -81,7 +81,7 @@ public class GameSessionHandler {
 	    String tempMessageWithName = "";
 		for(Player player : this.players){
 			if(player.getId() == session.getId()){
-				tempMessageWithName = player.getName() + " : " + message;
+				tempMessageWithName = player.getPlayerName() + " : " + message;
 			}
 		}
 		//Creates JSON object and send

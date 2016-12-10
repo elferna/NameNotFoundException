@@ -70,17 +70,6 @@ function initializeListeners(){
 		}
 	});
 
-	//This function put a check mark on the notepad when clicked
-	//erases the checkmark if there is one already
-	$("#noteTakingTableTop div .row div").click(function(){
-		if($(this).html() != ''){
-			$(this).html("");
-		}
-		else{
-			$(this).html("&#10004");
-		}
-	});
-
 	//This is to send the information after clicking the accusation or suggestion button
 	$("#suggestionButton, #accusationButton").click(function(event){
     	handleForm(event);

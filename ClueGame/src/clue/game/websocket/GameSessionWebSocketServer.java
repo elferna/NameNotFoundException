@@ -27,6 +27,7 @@ public class GameSessionWebSocketServer {
     public void open(Session session) {
 		System.out.println("connection request");
 		sessionHandler.addSession(session);
+//		connectedPlayers.put(session, new Player(session.getId()));
 	}
 
 	@OnClose

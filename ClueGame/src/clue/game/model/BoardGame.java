@@ -3,22 +3,27 @@ package clue.game.model;
 import java.util.*;
 import javax.swing.JOptionPane;
 
+import clue.game.model.Player;
+import clue.game.model.Position;
+import clue.game.model.Card;
+import clue.game.model.Solution;
+
 public class BoardGame {
 
-	private ArrayList<Player>allPlayers;
-	private ArrayList<Card>roomCards;  
-	private ArrayList<Card>weaponCards;
-    private ArrayList<Card>suspectCards; 
+	private ArrayList<Player>allPlayers = new ArrayList<>();
+	private ArrayList<Card>roomCards = new ArrayList<>();  
+	private ArrayList<Card>weaponCards = new ArrayList<>();
+    private ArrayList<Card>suspectCards = new ArrayList<>(); 
     public enum Cards{ Room, Suspect, Weapon};
-    int GameInstanceNumber;
+    String gameID;
     private int[][] location;
     Solution answer;
 	
 	private ArrayList<String> yesAndNo;
  
-	public BoardGame(ArrayList<Player> allPlayers, int gameInstanceNumber) {
+	public BoardGame(ArrayList<Player> allPlayers, String gameID) {
 		this.allPlayers = allPlayers;
-		this.GameInstanceNumber = gameInstanceNumber;
+		this.gameID = gameID;
 		this.location = new int[7][7];
 		this.roomCards = new ArrayList<Card>();  
 		this.weaponCards = new ArrayList<Card>();
@@ -28,7 +33,20 @@ public class BoardGame {
             this.yesAndNo.add("no");
 	}
 	
+	public BoardGame(String gameID) {
+		this.gameID = gameID;
+		this.location = new int[7][7];
+		this.roomCards = new ArrayList<Card>();  
+		this.weaponCards = new ArrayList<Card>();
+	    this.suspectCards = new ArrayList<Card>();
+		this.yesAndNo = new ArrayList<String>();
+            this.yesAndNo.add("yes");
+            this.yesAndNo.add("no");
+	}
 	
+	public BoardGame() {
+		
+	}
 	
 	//Initializations
 	public void initializeRooms()
@@ -608,6 +626,14 @@ public class BoardGame {
 		int choices = printOptionsMenu(validMoves, p );*/
 	}
 	
+	/**
+	 * Add a player to the game board.
+	 * @param player
+	 */
+	public void addPlayer(Player player) {
+		this.allPlayers.add(player);
+	}
+	
 	//Main Methods
     public void play()
 	{
@@ -661,15 +687,5 @@ public class BoardGame {
 				}
 			}
 		}
-	}
-	public static void main(String[] args) 
-	{
-		ArrayList<Player>temp = new ArrayList<Player>();
-//		temp.add(new Player("P1"));
-//		temp.add(new Player("P2"));
-//		temp.add(new Player("P3"));
-		BoardGame BG = new BoardGame(temp,1);
-		BG.initializeGame(temp);
-		BG.play();
 	}
 }

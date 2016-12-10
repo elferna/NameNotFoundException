@@ -2,6 +2,7 @@ package clue.game.websocket;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,7 +16,6 @@ import javax.json.spi.JsonProvider;
 import javax.websocket.Session;
 
 import org.example.model.Device;
-import org.example.model.User;
 
 import clue.game.model.Player;
 
@@ -23,40 +23,39 @@ import clue.game.model.Player;
 @ApplicationScoped
 public class GameSessionHandler {
 	private int deviceId = 0;
+//	private Set<GameSession> gameSessions = Collections.synchronizedSet(new HashSet<>());
+	private GameSession gameSession = new GameSession();
+//	private Map<Session, Player> connectedPlayers = Collections.synchronizedMap(new HashMap<>());
 	private final Set<Session> sessions = new HashSet<>();
 	private final Set<Device> devices = new HashSet<>();
 	private final Set<Player> players = new HashSet<>();
-	private final Stack<String> namesArray = new Stack<String>();
+	
 	
 	//Constructor with given names, this is just to try the concept
 	public GameSessionHandler(){
-		this.namesArray.push("Mustard");
-		this.namesArray.push("White");
-		this.namesArray.push("Green");
-		this.namesArray.push("Yellow");
-		this.namesArray.push("Red");
+		
 	}
 	
-	//This add a session depending on how many users
+	// This add a session depending on how many users. For now,
+	// we're assuming only one game session exists for the sake
+	// of time.
 	public synchronized void addSession(Session session){
 		this.sessions.add(session);
 		
-		Player player = null;
-		//It gets the names oout of a stack, this force that no repeated name will be given
-		if(!this.namesArray.isEmpty()){
-			if(!this.sessions.equals(session)){
-				player = new Player(this.namesArray.pop(),session);
-				this.players.add(player);
-			}
+		this.gameSession.addPlayer(new Player("P".concat(gameSession.getPlayerCount().toString()), session));
+		for(Player p : gameSession.getAllPlayers()) {
+			System.out.println("%%%%%%%%%%%%%%%%%%%%% " + p.getPlayerName() + " %%%%%%%%%%%%%%%%%%%%%");
 		}
-		
-		
+	
 		for (Device device : devices) {
 			JsonObject addMessage = createAddMessage(device);
 			sendToSession(session, addMessage);
 		}
 		
-		this.sendToAllConnectedSessions(this.createChatMessage(player.getPlayerName() + " : " + player.getId()));
+		for(Player player : gameSession.getAllPlayers()) {
+			this.sendToAllConnectedSessions(this.createChatMessage(player.getPlayerName() + " : " + player.getId()));
+		}
+		
 	}
 	
 	public void removeSession(Session session){

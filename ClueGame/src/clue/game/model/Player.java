@@ -21,6 +21,7 @@ public class Player {
 	private ArrayList<String>turnHistory ;
 	private String playerName;
 	private Card suspect;
+	private String suspectName;
     private boolean isTurn;
     private boolean hasMadeAccusation;
     private Room currentRoom;
@@ -83,6 +84,11 @@ public class Player {
     
 	public void setPlayerCharacter(Card suspect){
 		this.suspect = suspect; 
+	}
+	
+	// Overloading to make things easier...
+	public void setPlayerCharacter(String suspectName) {
+		this.suspectName = suspectName;
 	}
 	
 	public Card getPlayerCharacter(){

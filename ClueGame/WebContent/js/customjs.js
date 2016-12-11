@@ -89,6 +89,7 @@ function sendChatMessage() {
     	type: "chat",
         message: tempMsg
     };
+	console.info("CHAT MESSAGE TO SEND : ", chatMsg);
 	//Sending through the socket
     socket.send(JSON.stringify(chatMsg));
 }

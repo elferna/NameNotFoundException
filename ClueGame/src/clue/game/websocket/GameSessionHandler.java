@@ -40,9 +40,12 @@ public class GameSessionHandler {
 	// we're assuming only one game session exists for the sake
 	// of time.
 	public synchronized void addSession(Session session){
-		this.sessions.add(session);
 		
-		this.gameSession.addPlayer(new Player("P".concat(gameSession.getPlayerCount().toString()), session));
+		if(!this.sessions.contains(session)) {
+			this.sessions.add(session);
+			this.gameSession.addPlayer(new Player("P".concat(gameSession.getPlayerCount().toString()), session));
+		}
+		
 		for(Player p : gameSession.getAllPlayers()) {
 			System.out.println("%%%%%%%%%%%%%%%%%%%%% " + p.getPlayerName() + " %%%%%%%%%%%%%%%%%%%%%");
 		}
@@ -53,9 +56,8 @@ public class GameSessionHandler {
 		}
 		
 		for(Player player : gameSession.getAllPlayers()) {
-			this.sendToAllConnectedSessions(this.createChatMessage(player.getPlayerName() + " : " + player.getId()));
+			this.sendToAllConnectedSessions(this.createChatMessage(player.getPlayerName() + " has joined!"));
 		}
-		
 	}
 	
 	public void removeSession(Session session){
@@ -78,10 +80,8 @@ public class GameSessionHandler {
 	public void broadcastMsg(Session session, String message){
 		//Creates a messages String from the message taken from the chat
 	    String tempMessageWithName = "";
-		for(Player player : this.players){
-			if(player.getId() == session.getId()){
-				tempMessageWithName = player.getPlayerName() + " : " + message;
-			}
+		for(Player player : gameSession.getAllPlayers()) {
+			tempMessageWithName = player.getPlayerName() + " : " + message;
 		}
 		//Creates JSON object and send
 		JsonObject tempMessage = createChatMessage(tempMessageWithName);

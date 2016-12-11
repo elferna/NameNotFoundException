@@ -61,10 +61,10 @@ public class GameSessionWebSocketServer {
 	                sessionHandler.removeDevice(id);
 	            }
 
-	            if ("toggle".equals(jsonMessage.getString("action"))) {
-	                int id = (int) jsonMessage.getInt("id");
-	                sessionHandler.toggleDevice(id);
-	            }
+//	            if ("toggle".equals(jsonMessage.getString("action"))) {
+//	                int id = (int) jsonMessage.getInt("id");
+//	                sessionHandler.toggleDevice(id);
+//	            }
 	        }
 	    }
 	}

@@ -23,12 +23,9 @@ import clue.game.model.Player;
 @ApplicationScoped
 public class GameSessionHandler {
 	private int deviceId = 0;
-//	private Set<GameSession> gameSessions = Collections.synchronizedSet(new HashSet<>());
 	private GameSession gameSession = new GameSession();
-//	private Map<Session, Player> connectedPlayers = Collections.synchronizedMap(new HashMap<>());
-	private final Set<Session> sessions = new HashSet<>();
-	private final Set<Device> devices = new HashSet<>();
-	private final Set<Player> players = new HashSet<>();
+	private final Set<Session> sessions = Collections.synchronizedSet(new HashSet<>());
+	private final Set<Device> devices = Collections.synchronizedSet(new HashSet<>());
 	
 	
 	//Constructor with given names, this is just to try the concept
@@ -43,9 +40,15 @@ public class GameSessionHandler {
 		
 		if(!this.sessions.contains(session)) {
 			this.sessions.add(session);
-			this.gameSession.addPlayer(new Player("P".concat(gameSession.getPlayerCount().toString()), session));
+			Player player = new Player("P".concat(gameSession.getPlayerCount().toString()), session);
+			
+			if(!this.gameSession.getAllPlayers().contains(player))
+			{
+				this.gameSession.addPlayer(player);
+			}
 		}
 		
+		System.out.println("%%%%%%%%%%%%%%%%%%%%% Size:" + gameSession.getAllPlayers().size() + " %%%%%%%%%%%%%%%%%%%%%");
 		for(Player p : gameSession.getAllPlayers()) {
 			System.out.println("%%%%%%%%%%%%%%%%%%%%% " + p.getPlayerName() + " %%%%%%%%%%%%%%%%%%%%%");
 		}
@@ -61,6 +64,7 @@ public class GameSessionHandler {
 	}
 	
 	public void removeSession(Session session){
+		this.gameSession.removePlayer(this.gameSession.getPlayer(session.getId()));
 		this.sessions.remove(session);
 	}
 	

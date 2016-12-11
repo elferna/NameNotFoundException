@@ -1,6 +1,7 @@
 package clue.game.websocket;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Represents a game that a group of players belong to.
@@ -10,6 +11,7 @@ import java.util.ArrayList;
  */
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -19,7 +21,7 @@ import clue.game.model.Player;
 
 public class GameSession {
 
-	private final Set<Player> players = new HashSet<>();
+	private final Set<Player> players = Collections.synchronizedSet(new HashSet<>());
 	private final int PLAYER_LIMIT  = 6;
 	private Integer playerCount = 0;
 	private Stack<String> suspectsArray = new Stack<String>();
@@ -53,6 +55,8 @@ public class GameSession {
 			players.add(player);
 			boardGame.addPlayer(temp);
 			playerCount++;
+		} else {
+			System.out.println("********************** GAME SESSION IS FULL **********************");
 		}
 		
 	}
@@ -71,6 +75,21 @@ public class GameSession {
 	public Integer getPlayerCount() {
 		return playerCount;
 	}	
+	
+	public Player getPlayer(String id) {
+		
+		Player result = null;
+		Iterator<Player> iterator = this.players.iterator();
+		
+		while(iterator.hasNext()) {
+			if(iterator.next().getId() == id) {
+				result = iterator.next();
+				break;
+			}
+		}
+		
+		return result;
+	}
 	
 	/**
 	 * Starts the game. Need someplace to call this...

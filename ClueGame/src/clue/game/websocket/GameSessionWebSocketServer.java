@@ -25,13 +25,13 @@ public class GameSessionWebSocketServer {
 	
 	@OnOpen
     public void open(Session session) {
-		System.out.println("connection request");
+		System.out.println("Connection requested : " + session.getId());
 		sessionHandler.addSession(session);
-//		connectedPlayers.put(session, new Player(session.getId()));
 	}
 
 	@OnClose
     public void close(Session session) {
+		System.out.println("Connection closing : " + session.getId());
 		sessionHandler.removeSession(session);
 	}
 
@@ -48,23 +48,20 @@ public class GameSessionWebSocketServer {
 	            //If the JSON message is of type chat, do this
 	            //It uses the sessionHandler.broadcastMsg to send the message from the chat
 	            if ("chat".equals(jsonMessage.getString("type"))) {
-//	                Device device = new Device();
-//	                device.setName(jsonMessage.getString("name"));
-//	                device.setDescription(jsonMessage.getString("description"));
-//	                device.setType(jsonMessage.getString("type"));
-//	                device.setStatus("Off");
 	                sessionHandler.broadcastMsg(session, jsonMessage.getString("message"));
 	            }
 
-	            if ("heartbeat".equals(jsonMessage.getString("type"))) {
-	                int id = (int) jsonMessage.getInt("id");
-	                sessionHandler.removeDevice(id);
+	            //If the JSON message is of type notification, then all players will be notified
+	            else if ("notification".equals(jsonMessage.getString("type"))) {
+	            	sessionHandler.broadcastNotification(jsonMessage.getString("message"));
 	            }
-
-	            if ("toggle".equals(jsonMessage.getString("action"))) {
-	                int id = (int) jsonMessage.getInt("id");
-	                sessionHandler.toggleDevice(id);
+	            
+	            //If the JSON message is of type card, then only the player that made a suggestion
+	            //will be shown the notified of which card is "shown"
+	            else if ("card".equals(jsonMessage.getString("type"))) {
+	            	//TODO
 	            }
+	            
 	        }
 	    }
 	}

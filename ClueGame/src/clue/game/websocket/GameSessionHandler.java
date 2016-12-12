@@ -68,6 +68,11 @@ public class GameSessionHandler {
 		//TODO
 	}
 	
+	// Returns the game session
+	public GameSession getGameSession() {
+		return this.gameSession;
+	}
+	
 //    public void removePlayer(Player player) {
 //        if (player != null) {
 //            gameSession.removePlayer(player);

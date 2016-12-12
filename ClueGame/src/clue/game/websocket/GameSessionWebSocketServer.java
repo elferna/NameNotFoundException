@@ -56,6 +56,11 @@ public class GameSessionWebSocketServer {
 	            	sessionHandler.broadcastNotification(jsonMessage.getString("message"));
 	            }
 	            
+	            //If the JSON message is of type startGame, then start the game session
+	            else if ("startGame".equals(jsonMessage.getString("type"))) {
+	            	sessionHandler.getGameSession().startGame();
+	            }
+	            
 	            //If the JSON message is of type card, then only the player that made a suggestion
 	            //will be shown the notified of which card is "shown"
 	            else if ("card".equals(jsonMessage.getString("type"))) {

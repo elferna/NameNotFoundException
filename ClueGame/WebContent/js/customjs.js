@@ -68,6 +68,11 @@ function initializeListeners(){
 	$("#chatSendBtn").click(function(event){
     	sendChatMessage();
 	});
+	
+	//This is to send a message to the server to start the game
+	$("#startGameBtn").click(function(event){
+		startGame();
+	});
 }
 
 //Function to send a message 
@@ -80,6 +85,17 @@ function sendChatMessage() {
     };
 	//Sending through the socket
     socket.send(JSON.stringify(chatMsg));
+}
+
+//Function to send a message to the server to start the game
+function startGame() {
+	var startMsg = {
+		type:"startGame",
+		msg: ""
+	};
+	
+	//Send start command through the socket
+	socket.send(JSON.stringify(startMsg));
 }
 
 //This is not being used now, it was used during early development

@@ -10,6 +10,8 @@ import java.util.ArrayList;
  */
 
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -72,14 +74,18 @@ public class GameSession {
 		return playerCount;
 	}	
 	
-	/**
-	 * Starts the game. Need someplace to call this...
-	 */
-	@SuppressWarnings("unchecked")
 	public void startGame() {
-		this.boardGame.initializeGame((ArrayList<Player>)getAllPlayers());
+		Iterator<Player> iterator = getAllPlayers().iterator();
+		ArrayList<Player> joinedPlayers = new ArrayList<Player>();
+		
+		while(iterator.hasNext()) {
+			joinedPlayers.add(iterator.next());
+		}
+		this.boardGame.initializeGame(joinedPlayers);
 		this.boardGame.play();
+		System.out.println("%%%%%%%%%%%%%%%%%% GAME STARTED %%%%%%%%%%%%%%%%%%");
 	}
+	
 	/**
 	 * Generates an ID for the game board instance
 	 * @return

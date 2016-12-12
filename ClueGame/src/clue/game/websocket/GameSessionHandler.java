@@ -33,7 +33,7 @@ public class GameSessionHandler {
 		
 		this.gameSession.addPlayer(player);
 		System.out.println("%%%%%%%%%%%%%%%%%%%%% " + player.getPlayerName() + " %%%%%%%%%%%%%%%%%%%%%");				
-		this.sendToAllConnectedSessions(this.createChatMessage(player.getPlayerName() + " is now connected."));
+		this.sendToAllConnectedSessions(this.createChatMessage("Notification: " + player.getPlayerName() + " is now connected."));
 	}
 	
 	public void removeSession(Session session){
@@ -51,22 +51,7 @@ public class GameSessionHandler {
 		//Creates JSON object and send
 		JsonObject tempMessage = createChatMessage(tempMessageWithName);
 		sendToAllConnectedSessions(tempMessage);
-	}
-	
-	//Broadcasts a notification to all players
-	public void broadcastNotification(String message) {
-		//TODO: Not working at the moment
-		String gameMessage;
-		gameMessage = "Notification: " + message;
-		
-		JsonObject tempMessage = createNotification(gameMessage);
-		sendToAllConnectedSessions(tempMessage);
-	}
-	
-	//Broadcasts a card to one player
-	public void broadcastCard() {
-		//TODO
-	}
+	}	
 	
 	// Returns the game session
 	public GameSession getGameSession() {

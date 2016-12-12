@@ -33,7 +33,7 @@ public class GameSessionHandler {
 		
 		this.gameSession.addPlayer(player);
 		System.out.println("%%%%%%%%%%%%%%%%%%%%% " + player.getPlayerName() + " %%%%%%%%%%%%%%%%%%%%%");				
-		this.sendToAllConnectedSessions(this.createChatMessage(player.getPlayerName() + " is now connected."));
+		this.sendToAllConnectedSessions(this.createChatMessage("Notification: " + player.getPlayerName() + " is now connected."));
 	}
 	
 	public void removeSession(Session session){
@@ -53,21 +53,6 @@ public class GameSessionHandler {
 		sendToAllConnectedSessions(tempMessage);
 	}
 	
-	//Broadcasts a notification to all players
-	public void broadcastNotification(String message) {
-		//TODO: Not working at the moment
-		String gameMessage;
-		gameMessage = "Notification: " + message;
-		
-		JsonObject tempMessage = createNotification(gameMessage);
-		sendToAllConnectedSessions(tempMessage);
-	}
-	
-	//Broadcasts a card to one player
-	public void broadcastCard() {
-		//TODO
-	}
-	
 //    public void removePlayer(Player player) {
 //        if (player != null) {
 //            gameSession.removePlayer(player);
@@ -79,16 +64,6 @@ public class GameSessionHandler {
 //            sendToAllConnectedSessions(removeMessage);
 //        }
 //    }
-
-    //Creates a notification
-    private JsonObject createNotification(String notification) {
-        JsonProvider provider = JsonProvider.provider();
-        JsonObject tempNotification = provider.createObjectBuilder()
-                .add("type", "notification")
-                .add("message", notification)
-                .build();
-        return tempNotification;
-    }
     
     private JsonObject createChatMessage(String chatMessage) {
         JsonProvider provider = JsonProvider.provider();

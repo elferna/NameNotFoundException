@@ -50,15 +50,29 @@ public class GameSessionWebSocketServer {
 	            if ("chat".equals(jsonMessage.getString("type"))) {
 	                sessionHandler.broadcastMsg(session, jsonMessage.getString("message"));
 	            }
+	            
+	            //Starts the game when "Start Game" button is clicked
+	            if ("start".equals(jsonMessage.getString("type"))) {
+	            	//TODO: Instead of "type" we could also use "action"
+	            	//This depends on how the javascript code is formatted
+	            }
+	            
+	            if ("move".equals(jsonMessage.getString("type"))) {
+	            	//TODO
+	            }
 
-	            //If the JSON message is of type notification, then all players will be notified
-	            else if ("notification".equals(jsonMessage.getString("type"))) {
-	            	sessionHandler.broadcastNotification(jsonMessage.getString("message"));
+	            //If the JSON message is of type suggestion, 
+	            if ("suggestion".equals(jsonMessage.getString("type"))) {
+	            	//TODO
+	            }
+	            
+	            if ("accusation".equals(jsonMessage.getString("type"))) {
+	            	//TODO
 	            }
 	            
 	            //If the JSON message is of type card, then only the player that made a suggestion
 	            //will be shown the notified of which card is "shown"
-	            else if ("card".equals(jsonMessage.getString("type"))) {
+	            if ("card".equals(jsonMessage.getString("type"))) {
 	            	//TODO
 	            }
 	            

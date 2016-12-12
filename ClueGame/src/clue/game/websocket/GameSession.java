@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -30,11 +31,12 @@ public class GameSession {
 	 */
 	public GameSession() {
 				
-		this.suspectsArray.push("Mustard");
-		this.suspectsArray.push("White");
-		this.suspectsArray.push("Green");
-		this.suspectsArray.push("Yellow");
-		this.suspectsArray.push("Red");	
+		this.suspectsArray.push("Col. Mustard");
+		this.suspectsArray.push("Mrs. White");
+		this.suspectsArray.push("Mr. Green");
+		this.suspectsArray.push("Mrs. Peacock");
+		this.suspectsArray.push("Ms. Scarlet");
+		this.suspectsArray.push("Prof. Plum");
 		
 		this.boardGame = new BoardGame(generateBoardGameID());
 	}
@@ -53,6 +55,8 @@ public class GameSession {
 			players.add(player);
 			boardGame.addPlayer(temp);
 			playerCount++;
+		} else {
+			System.out.println("********************** GAME SESSION IS FULL **********************");
 		}
 		
 	}
@@ -71,6 +75,21 @@ public class GameSession {
 	public Integer getPlayerCount() {
 		return playerCount;
 	}	
+	
+	public Player getPlayer(String id) {
+		
+		Player result = null;
+		Iterator<Player> iterator = this.players.iterator();
+		
+		while(iterator.hasNext()) {
+			if(iterator.next().getId() == id) {
+				result = iterator.next();
+				break;
+			}
+		}
+		
+		return result;
+	}
 	
 	/**
 	 * Starts the game. Need someplace to call this...
